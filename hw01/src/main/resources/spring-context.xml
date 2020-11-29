@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="resourceLoader" class="org.springframework.core.io.DefaultResourceLoader" />
+
+    <bean id="loader" class="ru.otus.spring_2020_11.hw01.service.LoaderCsv">
+        <constructor-arg ref="resourceLoader" />
+    </bean>
+    <bean id="examiner" class="ru.otus.spring_2020_11.hw01.service.ExaminerImpl">
+        <constructor-arg name="loader" ref="loader" />
+        <constructor-arg name="resource" value="qa.csv" />
+    </bean>
+</beans>
