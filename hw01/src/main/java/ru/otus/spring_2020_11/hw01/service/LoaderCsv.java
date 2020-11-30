@@ -5,6 +5,7 @@ import lombok.val;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,12 +20,19 @@ public class LoaderCsv implements Loader {
     }
 
     @Override
-    public List<String> getLines(String resourcePath) {
+    public <T> List<T> getEntities(String resourcePath, Class<T> clazz) {
         try {
-            InputStream in = getStream(resourcePath);
+            val constructor = clazz.getConstructor(String.class);
+            val entities = new ArrayList<T>();
 
-            return read(in);
-        } catch (IOException e) {
+            for (val s : read(resourcePath)) {
+                if (!s.isBlank() && !",".equals(s)) {
+                    entities.add(constructor.newInstance(s));
+                }
+            }
+
+            return entities;
+        } catch (IOException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             log.error(e.getMessage());
 
             return Collections.emptyList();
@@ -32,13 +40,8 @@ public class LoaderCsv implements Loader {
     }
 
     //region private
-    private InputStream getStream(String resourcePath) throws IOException {
-        val resource = resourceLoader.getResource(resourcePath);
-
-        return resource.getInputStream();
-    }
-
-    private List<String> read(InputStream in) {
+    private List<String> read(String resourcePath) throws IOException {
+        val in = resourceLoader.getResource(resourcePath).getInputStream();
         val reader = new BufferedReader(new InputStreamReader(in));
 
         return reader.lines().collect(Collectors.toList());

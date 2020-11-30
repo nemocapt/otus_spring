@@ -16,26 +16,26 @@ public class LoaderCsvTest {
     public void read_success() {
         val loader = new LoaderCsv(resourceLoader);
 
-        val lines = loader.getLines("csv_test/tst_csv_01.csv");
+        val entities = loader.getEntities("csv_test/tst_csv_01.csv", String.class);
 
-        assertThat(lines).containsOnly(SUCCESS_LINE);
+        assertThat(entities).containsOnly(SUCCESS_LINE);
     }
 
     @Test
     public void read_empty_success() {
         val loader = new LoaderCsv(resourceLoader);
 
-        val lines = loader.getLines("csv_test/tst_csv_empty.csv");
+        val entities = loader.getEntities("csv_test/tst_csv_empty.csv", String.class);
 
-        assertThat(lines).isEmpty();
+        assertThat(entities).isEmpty();
     }
 
     @Test
     public void read_absent_success() {
         val loader = new LoaderCsv(resourceLoader);
 
-        val lines = loader.getLines("csv_test/tst_csv_absent.csv");
+        val entities = loader.getEntities("csv_test/tst_csv_absent.csv", String.class);
 
-        assertThat(lines).isEmpty();
+        assertThat(entities).isEmpty();
     }
 }
