@@ -11,23 +11,23 @@ public class ExaminerImpl implements Examiner {
 
     @Getter
     private final List<Question> questions;
-    private final Loader loader;
+    private final LoaderQuestion loaderQuestion;
     private final String resource;
 
-    public ExaminerImpl(Loader loader, String resource) {
-        this.loader = loader;
+    public ExaminerImpl(LoaderQuestion loaderQuestion, String resource) {
+        this.loaderQuestion = loaderQuestion;
         this.resource = resource;
-        this.questions = loader.getEntities(resource, Question.class);
+        this.questions = loaderQuestion.getEntities(resource);
     }
 
     @Override
     public void examine() {
         questions.forEach(q -> {
-            log.info("Q: {}?", q.getQuestion());
+            log.info("Q: {}?", q.getText());
             log.info("A:");
 
             q.getAnswers().forEach(a -> {
-                log.info("\t* {}", a.getAnswer());
+                log.info("\t* {}", a.getText());
             });
         });
     }
