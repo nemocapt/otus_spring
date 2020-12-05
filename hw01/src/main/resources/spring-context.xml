@@ -6,11 +6,11 @@
 
     <bean id="resourceLoader" class="org.springframework.core.io.DefaultResourceLoader" />
 
-    <bean id="loader" class="ru.otus.spring_2020_11.hw01.service.LoaderCsv">
+    <bean id="loaderQuestion" class="ru.otus.spring_2020_11.hw01.service.LoaderQuestionCsv">
         <constructor-arg ref="resourceLoader" />
     </bean>
     <bean id="examiner" class="ru.otus.spring_2020_11.hw01.service.ExaminerImpl">
-        <constructor-arg name="loader" ref="loader" />
+        <constructor-arg name="loaderQuestion" ref="loaderQuestion" />
         <constructor-arg name="resource" value="qa.csv" />
     </bean>
 </beans>

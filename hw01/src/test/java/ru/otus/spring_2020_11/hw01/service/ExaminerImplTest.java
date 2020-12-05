@@ -10,26 +10,26 @@ public class ExaminerImplTest {
     private static final String QUESTION = "qwe";
     private static final String ANSWER = "123";
 
-    private final Loader loader = new LoaderCsv(new DefaultResourceLoader());
+    private final LoaderQuestion loaderQuestion = new LoaderQuestionCsv(new DefaultResourceLoader());
 
     @Test
     public void examine_success() {
-        val examiner = new ExaminerImpl(loader, "csv_test/tst_csv_01.csv");
+        val examiner = new ExaminerImpl(loaderQuestion, "csv_test/tst_csv_01.csv");
 
         val question = examiner.getQuestions().get(0);
         val answers = question.getAnswers();
 
-        assertThat(question.getQuestion())
+        assertThat(question.getText())
                 .asString()
                 .isEqualTo(QUESTION);
         assertThat(answers)
                 .hasSize(1)
-                .allMatch(a -> a.getAnswer().equals(ANSWER));
+                .allMatch(a -> a.getText().equals(ANSWER));
     }
 
     @Test
     public void examine_empty_success() {
-        val examiner = new ExaminerImpl(loader, "csv_test/tst_csv_empty.csv");
+        val examiner = new ExaminerImpl(loaderQuestion, "csv_test/tst_csv_empty.csv");
 
         val question = examiner.getQuestions();
 
@@ -38,7 +38,7 @@ public class ExaminerImplTest {
 
     @Test
     public void examine_absent_success() {
-        val examiner = new ExaminerImpl(loader, "csv_test/tst_csv_absent.csv");
+        val examiner = new ExaminerImpl(loaderQuestion, "csv_test/tst_csv_absent.csv");
 
         val question = examiner.getQuestions();
 
@@ -47,7 +47,7 @@ public class ExaminerImplTest {
 
     @Test
     public void examine_comma_success() {
-        val examiner = new ExaminerImpl(loader, "csv_test/tst_csv_02.csv");
+        val examiner = new ExaminerImpl(loaderQuestion, "csv_test/tst_csv_02.csv");
 
         val question = examiner.getQuestions();
 
