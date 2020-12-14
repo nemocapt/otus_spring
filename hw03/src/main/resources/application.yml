@@ -1,0 +1,4 @@
+app:
+  loader:
+    resource: qa.csv
+  locale: ru
