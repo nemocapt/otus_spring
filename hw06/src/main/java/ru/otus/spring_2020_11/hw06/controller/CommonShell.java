@@ -100,7 +100,9 @@ public class CommonShell {
 
     @ShellMethod(value = "show all commentaries for book", key = {"showcoomentaries", "sc"})
     public String showCommentaries(@ShellOption long bookId) {
-        return commentaryDao.getByBook(bookId).stream()
+        val book = bookDao.getById(bookId);
+
+        return commentaryDao.getByBook(book).stream()
                 .map(Commentary::toString)
                 .collect(Collectors.joining("\n"));
     }

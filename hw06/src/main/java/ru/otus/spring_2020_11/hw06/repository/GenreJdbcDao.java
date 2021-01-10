@@ -17,12 +17,7 @@ public class GenreJdbcDao implements GenreDao {
 
     @Override
     public Genre getById(long id) {
-        return em.createQuery(
-                "select g from Genre g where g.id = :id",
-                Genre.class
-        )
-                .setParameter("id", id)
-                .getSingleResult();
+        return em.find(Genre.class, id);
     }
 
     @Override
@@ -41,10 +36,11 @@ public class GenreJdbcDao implements GenreDao {
     }
 
     @Override
-    public void deleteById(long id) {
-        em.createQuery("delete from Genre g where g.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
+    public void delete(Genre genre) {
+        em.remove(genre);
+
+        em.flush();
+        em.clear();
     }
 
     @Override

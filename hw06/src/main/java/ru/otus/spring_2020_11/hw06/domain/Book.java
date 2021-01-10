@@ -1,14 +1,14 @@
 package ru.otus.spring_2020_11.hw06.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@ToString
-@EqualsAndHashCode
 @NamedEntityGraph(name = "bookGraph", attributeNodes = {
         @NamedAttributeNode("author"),
         @NamedAttributeNode("genre")
@@ -19,12 +19,15 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne(targetEntity = Author.class)
+
+    @ManyToOne(targetEntity = Author.class)
     @JoinColumn(name = "author_id")
     private Author author;
-    @OneToOne(targetEntity = Genre.class)
+
+    @ManyToOne(targetEntity = Genre.class)
     @JoinColumn(name = "genre_id")
     private Genre genre;
+
     @Column
     private String title;
 }

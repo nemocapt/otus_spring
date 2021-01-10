@@ -1,5 +1,6 @@
 package ru.otus.spring_2020_11.hw06;
 
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,12 @@ import ru.otus.spring_2020_11.hw06.domain.Book;
 import ru.otus.spring_2020_11.hw06.domain.Genre;
 import ru.otus.spring_2020_11.hw06.repository.BookJdbcDao;
 
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+@Slf4j
 @DataJpaTest
 @Import(BookJdbcDao.class)
 public class BookJdbcTest {
@@ -42,8 +43,8 @@ public class BookJdbcTest {
 
     @Test
     void get_by_id_absent() {
-        assertThatExceptionOfType(NoResultException.class)
-                .isThrownBy(() -> bookDao.getById(2));
+        assertThat(bookDao.getById(2))
+                .isNull();
     }
 
     @Test
@@ -54,26 +55,14 @@ public class BookJdbcTest {
 
     @Test
     void delete_by_id() {
-        assertThat(bookDao.getAll())
+        val books = bookDao.getAll();
+        assertThat(books)
                 .hasSize(1)
                 .allMatch(b -> b.getId() == 1L);
 
-        bookDao.deleteById(1L);
+        bookDao.delete(books.get(0));
 
         assertThat(bookDao.getAll()).isEmpty();
-    }
-
-    @Test
-    void delete_by_id_absent() {
-        assertThat(bookDao.getAll())
-                .hasSize(1)
-                .allMatch(b -> b.getId() == 1L);
-
-        bookDao.deleteById(2L);
-
-        assertThat(bookDao.getAll())
-                .hasSize(1)
-                .allMatch(b -> b.getId() == 1L);
     }
 
     @Test

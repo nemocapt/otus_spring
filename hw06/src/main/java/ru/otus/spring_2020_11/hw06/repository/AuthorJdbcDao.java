@@ -17,12 +17,7 @@ public class AuthorJdbcDao implements AuthorDao {
 
     @Override
     public Author getById(long id) {
-        return em.createQuery(
-                "select a from Author a where a.id = :id",
-                Author.class
-        )
-                .setParameter("id", id)
-                .getSingleResult();
+        return em.find(Author.class, id);
     }
 
     @Override
@@ -42,12 +37,11 @@ public class AuthorJdbcDao implements AuthorDao {
     }
 
     @Override
-    public void deleteById(long id) {
-        em.createQuery(
-                "delete from Author a where a.id = :id"
-        )
-                .setParameter("id", id)
-                .executeUpdate();
+    public void delete(Author author) {
+        em.remove(author);
+
+        em.flush();
+        em.clear();
     }
 
     @Override
