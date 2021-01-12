@@ -21,17 +21,6 @@ public class BookJdbcDao implements BookDao {
     @Override
     public Book getById(long id) {
         return em.find(Book.class, id);
-//        val eg = em.getEntityGraph("bookGraph");
-//
-//        return em.createQuery(
-//                "select b " +
-//                        "from Book b " +
-//                        "where b.id = :id",
-//                Book.class
-//        )
-//                .setHint("javax.persistence.fetchgraph", eg)
-//                .setParameter("id", id)
-//                .getSingleResult();
     }
 
     @Override
@@ -87,9 +76,6 @@ public class BookJdbcDao implements BookDao {
     @Override
     public void delete(Book book) {
         em.remove(book);
-
-        em.flush();
-        em.clear();
     }
 
     @Override

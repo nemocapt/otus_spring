@@ -1,13 +1,15 @@
 package ru.otus.spring_2020_11.hw06.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
+@ToString(exclude = "commentaries")
+@RequiredArgsConstructor
 @NoArgsConstructor
 @NamedEntityGraph(name = "bookGraph", attributeNodes = {
         @NamedAttributeNode("author"),
@@ -18,16 +20,24 @@ import javax.persistence.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
     private long id;
 
     @ManyToOne(targetEntity = Author.class)
     @JoinColumn(name = "author_id")
+    @NonNull
     private Author author;
 
     @ManyToOne(targetEntity = Genre.class)
     @JoinColumn(name = "genre_id")
+    @NonNull
     private Genre genre;
 
     @Column
+    @NonNull
     private String title;
+
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(targetEntity = Commentary.class, mappedBy = "book", fetch = FetchType.LAZY)
+    private List<Commentary> commentaries;
 }

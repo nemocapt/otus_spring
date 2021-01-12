@@ -2,6 +2,7 @@ package ru.otus.spring_2020_11.hw06.controller;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -19,6 +20,7 @@ import ru.otus.spring_2020_11.hw06.domain.Genre;
 import javax.persistence.EntityManager;
 import java.util.stream.Collectors;
 
+@Slf4j
 @ShellComponent
 @RequiredArgsConstructor
 public class CommonShell {
@@ -98,11 +100,12 @@ public class CommonShell {
         return "inserted commentary:\n" + commentary.toString();
     }
 
+    @Transactional
     @ShellMethod(value = "show all commentaries for book", key = {"showcoomentaries", "sc"})
     public String showCommentaries(@ShellOption long bookId) {
         val book = bookDao.getById(bookId);
 
-        return commentaryDao.getByBook(book).stream()
+        return book.getCommentaries().stream()
                 .map(Commentary::toString)
                 .collect(Collectors.joining("\n"));
     }

@@ -38,9 +38,6 @@ public class GenreJdbcDao implements GenreDao {
     @Override
     public void delete(Genre genre) {
         em.remove(genre);
-
-        em.flush();
-        em.clear();
     }
 
     @Override

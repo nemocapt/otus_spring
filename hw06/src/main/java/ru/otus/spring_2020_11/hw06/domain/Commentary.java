@@ -3,25 +3,14 @@ package ru.otus.spring_2020_11.hw06.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
+@ToString(exclude = "book")
 @AllArgsConstructor
 @NoArgsConstructor
-@NamedEntityGraph(name = "commentGraph", attributeNodes = {
-        @NamedAttributeNode(value = "book", subgraph = "book-subgraph"),
-},
-        subgraphs = {
-                @NamedSubgraph(
-                        name = "book-subgraph",
-                        attributeNodes = {
-                                @NamedAttributeNode("author"),
-                                @NamedAttributeNode("genre")
-                        }
-                )
-        }
-)
 @Entity
 @Table(name = "commentary")
 public class Commentary {

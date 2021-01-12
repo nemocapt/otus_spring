@@ -39,9 +39,6 @@ public class AuthorJdbcDao implements AuthorDao {
     @Override
     public void delete(Author author) {
         em.remove(author);
-
-        em.flush();
-        em.clear();
     }
 
     @Override
