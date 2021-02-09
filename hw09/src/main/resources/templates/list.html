@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список</title>
+</head>
+<body>
+<h1>Список книг</h1>
+<table class="book">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.author}">Author</td>
+        <td th:text="${book.genre}">Genre</td>
+        <td th:text="${book.title}">Title</td>
+        <td>
+            <a th:href="@{/edit(id=${book.id})}" href="edit.html">Правка</a>
+        </td>
+        <td>
+            <a th:href="@{/delete(id=${book.id})}" href="delete.html">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a th:href="@{/add}" href="add.html">Добавить книгу</a>
+<br>
+<!--<table class="author">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>First name</th>-->
+<!--        <th>Last name</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="author : ${authors}">-->
+<!--        <td th:text="${author.id}">1</td>-->
+<!--        <td th:text="${author.firstName}">First name</td>-->
+<!--        <td th:text="${author.lastName}">Last name</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+<!--<br>-->
+<!--<table class="genre">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Name</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="genre : ${genres}">-->
+<!--        <td th:text="${genre.id}">1</td>-->
+<!--        <td th:text="${genre.name}">Genre</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+</body>
+</html>
