@@ -7,36 +7,18 @@
 <body>
 <form id="edit-form" th:action="@{/edit(id=${book.id})}" th:method="post" action="edit.html">
     <h1>Править книгу:</h1>
-
     <div class="row">
         <label for="id-input">Book ID:</label>
         <label for="id-input" th:text="${book.id}">id</label>
-        <input id="id-input" name="book_id" type="text" th:value="${book.id}" value="1" hidden="true"/>
+        <input id="id-input" type="text" th:value="${book.id}" value="1" hidden="true"/>
     </div>
-    <!--    <div class="row">-->
-    <!--        <label for="author-input">Author ID:</label>-->
-    <!--        <input id="author-input" name="author_id" type="text" th:value="${book.author.id}" value="1"/>-->
-    <!--    </div>-->
-    <!--    <div class="row">-->
-    <!--        <label for="genre-input">Genre:</label>-->
-    <!--        <input id="genre-input" name="genre" type="text" th:value="${book.genre.name}" value="1"/>-->
-    <!--    </div>-->
-
     <div class="row">
         <label for="author-id-input">Author ID:</label>
-        <input id="author-id-input" name="author_id" type="text" th:value="${book.author.id}" value="1"/>
+        <input id="author-id-input" name="authorId" type="text" th:value="${book.author.id}" value="1"/>
     </div>
-    <!--    <div class="row">-->
-    <!--        <label for="author-fn-input">Author firstname:</label>-->
-    <!--        <input id="author-fn-input" name="author_fn" type="text" th:value="${book.author.firstName}" value="1"/>-->
-    <!--    </div>-->
-    <!--    <div class="row">-->
-    <!--        <label for="author-ln-input">Author lastname:</label>-->
-    <!--        <input id="author-ln-input" name="author_ln" type="text" th:value="${book.author.lastName}" value="1"/>-->
-    <!--    </div>-->
     <div class="row">
         <label for="genre-input">Genre:</label>
-        <input id="genre-input" name="genre_name" type="text" th:value="${book.genre.name}" value="1"/>
+        <input id="genre-input" name="genre" type="text" th:value="${book.genre.name}" value="1"/>
     </div>
     <div class="row">
         <label for="title-input">Title:</label>

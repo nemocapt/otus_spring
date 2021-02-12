@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.otus.spring_2020_11.hw09.controller.model.BookFlat;
 import ru.otus.spring_2020_11.hw09.domain.Book;
 import ru.otus.spring_2020_11.hw09.domain.Genre;
 import ru.otus.spring_2020_11.hw09.repostitory.AuthorRepository;
 import ru.otus.spring_2020_11.hw09.repostitory.BookRepository;
-
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,16 +43,8 @@ public class BookController {
 
     @Transactional
     @PostMapping("/edit")
-    public String updateBook(@RequestParam Map<String, String> map) {
-        val book = bookRepository.findById(map.get("book_id")).get();
-        val author = authorRepository.findById(map.get("author_id")).get();
-        val genre = new Genre(map.get("genre_name"));
-
-        book.setAuthor(author);
-        book.setGenre(genre);
-        book.setTitle(map.get("title"));
-
-        bookRepository.save(book);
+    public String updateBook(BookFlat bookFlat) {
+        bookRepository.save(convertToBook(bookFlat));
 
         return "redirect:/";
     }
@@ -72,18 +63,22 @@ public class BookController {
 
     @Transactional
     @PostMapping("/add")
-    public String insertBook(@RequestParam Map<String, String> map) {
-        val book = new Book();
-        val author = authorRepository.findById(map.get("author_id")).get();
-        val genre = new Genre(map.get("genre_name"));
+    public String insertBook(BookFlat bookFlat) {
+        bookRepository.save(convertToBook(bookFlat));
+
+        return "redirect:/";
+    }
+
+    private Book convertToBook(BookFlat bookFlat) {
+        val book = bookFlat.getId() == null ? new Book() : bookRepository.findById(bookFlat.getId()).get();
+        val author = authorRepository.findById(bookFlat.getAuthorId()).get();
+        val genre = new Genre(bookFlat.getGenre());
 
         book.setAuthor(author);
         book.setGenre(genre);
-        book.setTitle(map.get("title"));
+        book.setTitle(bookFlat.getTitle());
 
-        bookRepository.save(book);
-
-        return "redirect:/";
+        return book;
     }
 
     @ExceptionHandler
