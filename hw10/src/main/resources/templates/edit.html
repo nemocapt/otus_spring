@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Правка книги</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<script th:inline="javascript">
+    $(function () {
+        $.get('/api/book/?id=' + [[${param.id[0]}]]).done(function (book) {
+            $('body').append(`
+                    <form id="edit-form" action="/edit?id=${book.id}" method="post" action="edit.html">
+                        <h1>Править книгу:</h1>
+                        <div class="row">
+                            <label for="id-input">Book ID:</label>
+                            <label for="id-input" text="${book.id}">id</label>
+                            <input id="id-input" type="text" value="${book.id}" value="1" hidden="true"/>
+                        </div>
+                        <div class="row">
+                            <label for="author-id-input">Author ID:</label>
+                            <input id="author-id-input" name="authorId" type="text" value="${book.author.id}" value="1"/>
+                        </div>
+                        <div class="row">
+                            <label for="genre-input">Genre:</label>
+                            <input id="genre-input" name="genre" type="text" value="${book.genre.name}" value="1"/>
+                        </div>
+                        <div class="row">
+                            <label for="title-input">Title:</label>
+                            <input id="title-input" name="title" type="text" value="${book.title}" value="Title"/>
+                        </div>
+
+                        <div class="row">
+                            <button type="submit">Сохранить</button>
+                        </div>
+                    </form>
+                `)
+        });
+    });
+</script>
+</body>
+</html>
