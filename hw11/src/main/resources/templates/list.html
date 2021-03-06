@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Список</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<h1>Список книг</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<br>
+<a th:href="@{/add}" href="add.html">Добавить книгу</a>
+
+<script>
+    function editById(id) {
+        location.assign("/edit?id=" + id)
+    }
+
+    function deleteById(id) {
+        $.ajax({
+            url: "/api/book/" + id,
+            type: 'DELETE',
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+
+    function refreshList() {
+        $.get('/api/books/').done(function (books) {
+            books.forEach(function (book) {
+                $('tbody').append(`
+                    <tr>
+                        <td>${book.id}</td>
+                        <td>${book.author.id} ${book.author.firstName} ${book.author.lastName}</td>
+                        <td>${book.genre.name}</td>
+                        <td>${book.title}</td>
+                        <td>
+                            <button type="button" id="edit" onclick="editById('${book.id}');">edit</button>
+                        </td>
+                        <td>
+                            <button type="button" id="delete" onclick="deleteById('${book.id}');">delete</button>
+                        </td>
+                    </tr>
+                `)
+            })
+
+        })
+    }
+
+    $(function () {
+        refreshList()
+    })
+</script>
+</body>
+</html>
