@@ -1,0 +1,12 @@
+spring:
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring_2020_11.hw12.changelogs
